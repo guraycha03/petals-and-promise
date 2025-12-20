@@ -1,88 +1,181 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Menu, 
+  X, 
+  ShoppingBag, 
+  Instagram, 
+  PinIcon as Pinterest, 
+  Search,
+  Calendar
+} from 'lucide-react';
+
+
+// Ensure this points to hooks
+import { useCart } from '../hooks/useCart';
+
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showSubHeader, setShowSubHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Toggle function to handle body scroll lock
+  // Get the cart items from global state
+  const { cart } = useCart();
+
+  // Calculate total items (sum of all quantities)
+  const totalItems = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+
+  // Scroll logic to hide/show sub-header
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY && window.scrollY > 50) {
+          setShowSubHeader(false);
+        } else {
+          setShowSubHeader(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    // Optional: Stop background scrolling when menu is open
     document.body.style.overflow = !isOpen ? 'hidden' : 'unset';
   };
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md z-[100] border-b border-gray-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex justify-between items-center">
-          
-          {/* LEFT: Burger Menu Toggle */}
-          <button 
-            onClick={toggleMenu} 
-            className="flex items-center gap-3 group z-[110]"
-          >
-            <div className="flex flex-col gap-1.5 w-5">
-              <span className={`h-[1px] bg-brand-dark transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`h-[1px] bg-brand-dark transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`} />
-              <span className={`h-[1px] bg-brand-dark transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-            </div>
-            <span className="text-[10px] uppercase tracking-[0.3em] hidden sm:block font-medium">
-              {isOpen ? 'Close' : 'Menu'}
-            </span>
-          </button>
-
-          {/* CENTER: Logo (Absolute centered for professional look) */}
-          <Link to="/" className="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl font-serif tracking-[0.4em] text-brand-dark whitespace-nowrap">
-            PETALS & PROMISE
-          </Link>
-
-          {/* RIGHT: Shopping Bag */}
-          <div className="flex items-center gap-4">
-            <button className="relative group p-2">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-dark group-hover:text-brand-primary transition-colors">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              {/* Bag Count Badge (Blush color) */}
-              <span className="absolute top-1 right-0 w-3.5 h-3.5 bg-brand-blush text-[8px] flex items-center justify-center rounded-full text-brand-sage-dark font-bold">
-                0
+      {/* --- FIXED WRAPPER --- */}
+      <div className="fixed top-0 left-0 w-full z-[110] flex flex-col pointer-events-none">
+        
+        {/* --- MAIN HEADER BAR --- */}
+        <header className="w-full bg-white border-b border-brand-sage-light h-20 flex items-center z-[120] pointer-events-auto">
+          <div className="max-w-7xl mx-auto px-4 md:px-10 w-full flex justify-between items-center relative">
+            
+            {/* LEFT: Menu Toggle */}
+            <button 
+              onClick={toggleMenu} 
+              className="flex items-center gap-2 md:gap-4 outline-none group min-w-[100px]"
+            >
+              <div className="relative w-6 h-6 flex items-center justify-center text-brand-sage-dark">
+                {isOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+              </div>
+              <span className="text-xs uppercase tracking-[0.2em] hidden lg:block text-brand-sage-dark group-hover:text-brand-primary transition-colors font-medium">
+                Menu
               </span>
             </button>
-          </div>
-        </div>
-      </header>
 
-      {/* SLIDING MENU PANEL */}
+            {/* CENTER: BRAND LOGO */}
+            <Link 
+              to="/" 
+              className="absolute left-1/2 -translate-x-1/2 text-sm md:text-lg font-serif tracking-[0.5em] text-brand-sage-dark uppercase whitespace-nowrap px-4"
+            >
+              Petals & Promise
+            </Link>
+
+            {/* RIGHT: Actions */}
+            <div className="flex items-center justify-end gap-1 md:gap-4 min-w-[100px]">
+              <button className="p-2 text-brand-sage-dark hover:text-brand-primary transition-colors hidden md:block">
+                <Search size={20} strokeWidth={1.5} />
+              </button>
+              
+              {/* SYNCED SHOPPING BAG */}
+              <Link to="/cart" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
+                <ShoppingBag size={20} strokeWidth={1.5} />
+                
+                {/* Only show badge if there are items */}
+                {totalItems > 0 && (
+                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold animate-in fade-in zoom-in duration-300">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
+        </header>
+
+        {/* --- QUICK LINKS SUB-HEADER --- */}
+        <nav 
+          className={`w-full bg-white border-b border-brand-sage-light transition-all duration-500 ease-in-out hidden md:block pointer-events-auto overflow-hidden ${
+            showSubHeader ? 'max-h-14 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-10 h-14 flex justify-center items-center gap-12">
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
+              New Arrivals
+            </Link>
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
+              Bridal Gowns
+            </Link>
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
+              Sustainable Silk
+            </Link>
+            <Link to="/contact" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
+              Book a Viewing
+            </Link>
+          </div>
+        </nav>
+      </div>
+
+      {/* --- MISTY OVERLAY --- */}
       <div 
-        className={`fixed inset-0 bg-brand-dark/20 backdrop-blur-sm z-[90] transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-brand-sage-dark/20 backdrop-blur-[2px] z-[90] transition-opacity duration-700 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={toggleMenu}
       />
       
-      <aside className={`fixed top-0 left-0 h-full w-[85%] max-w-[400px] bg-white z-[105] shadow-2xl transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex flex-col h-full pt-32 px-12 pb-12 bg-petal-gradient">
-          <nav className="flex flex-col gap-8">
-            <Link to="/collections" onClick={toggleMenu} className="group flex items-baseline gap-4">
-              <span className="text-[10px] text-brand-sage font-serif italic">01</span>
-              <span className="text-3xl font-serif tracking-wide group-hover:text-brand-primary transition-colors">Collections</span>
-            </Link>
-            <Link to="/about" onClick={toggleMenu} className="group flex items-baseline gap-4">
-              <span className="text-[10px] text-brand-sage font-serif italic">02</span>
-              <span className="text-3xl font-serif tracking-wide group-hover:text-brand-primary transition-colors">About</span>
-            </Link>
-            <Link to="/contact" onClick={toggleMenu} className="group flex items-baseline gap-4">
-              <span className="text-[10px] text-brand-sage font-serif italic">03</span>
-              <span className="text-3xl font-serif tracking-wide group-hover:text-brand-primary transition-colors">Contact</span>
-            </Link>
+      {/* --- SIDE MENU PANEL --- */}
+      <aside className={`fixed top-0 left-0 h-full w-full max-w-[420px] bg-white z-[130] shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.2,1)] ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col h-full pt-32 px-10 md:px-16 pb-12 overflow-y-auto">
+          <nav className="flex flex-col space-y-10">
+            {/* Atelier Section */}
+            <div className="space-y-6">
+              <span className="block text-sm uppercase tracking-[0.3em] text-brand-primary font-medium border-b border-brand-sage-light pb-2">The Atelier</span>
+              <div className="flex flex-col space-y-4">
+                <Link to="/collections" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Bridal Gowns</Link>
+                <Link to="/collections" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Sustainable Silk</Link>
+                <Link to="/collections" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">New Arrivals</Link>
+              </div>
+            </div>
+
+            {/* Experience Section */}
+            <div className="space-y-6">
+              <span className="block text-sm uppercase tracking-[0.3em] text-brand-sage-dark font-medium border-b border-brand-sage-light pb-2">Experience</span>
+              <div className="flex flex-col space-y-4">
+                <Link to="/contact" onClick={toggleMenu} className="flex items-center gap-3 text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">
+                  <Calendar size={22} strokeWidth={1} />
+                  Book Appointment
+                </Link>
+                <Link to="/contact" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">The Sorsogon Studio</Link>
+              </div>
+            </div>
+
+            {/* The House Section */}
+            <div className="space-y-6">
+              <span className="block text-sm uppercase tracking-[0.3em] text-brand-sage-dark font-medium border-b border-brand-sage-light pb-2">The House</span>
+              <div className="flex flex-col space-y-4">
+                <Link to="/about" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Our Story</Link>
+                <Link to="/contact" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Sustainability</Link>
+                <Link to="/contact" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Client FAQ</Link>
+              </div>
+            </div>
           </nav>
 
-          {/* Bottom of Menu (Socials/Address) */}
-          <div className="mt-auto pt-10 border-t border-brand-sage/20">
-            <p className="text-[9px] uppercase tracking-[0.3em] text-brand-sage-dark mb-4 font-bold">Follow Our Bloom</p>
-            <div className="flex gap-6 text-[10px] uppercase tracking-widest text-gray-400">
-              <a href="#" className="hover:text-brand-primary">Instagram</a>
-              <a href="#" className="hover:text-brand-primary">Pinterest</a>
+          {/* Menu Footer */}
+          <div className="mt-16 pt-10 border-t border-brand-sage-light">
+            <div className="flex gap-8 text-brand-sage-dark mb-6">
+              <a href="#" className="hover:text-brand-primary transition-transform hover:-translate-y-1"><Instagram size={24} strokeWidth={1} /></a>
+              <a href="#" className="hover:text-brand-primary transition-transform hover:-translate-y-1"><Pinterest size={24} strokeWidth={1} /></a>
             </div>
+            <p className="text-xs uppercase tracking-[0.2em] text-brand-sage-dark/80">Crafting dreams since 2025 • Sorsogon City</p>
           </div>
         </div>
       </aside>

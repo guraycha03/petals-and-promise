@@ -7,22 +7,52 @@
   --color-brand-blush: #f5e6e8; 
   --color-brand-sage: #9ca38f;
   --color-brand-sage-light: #e2e4dc;
-  --color-brand-sage-dark: #6b705c;
+  --color-brand-sage-dark: #4a4e40; 
+  --color-brand-dark: #2d2d2d;
   
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-serif: "Libre Baskerville", serif;
+  --font-sans: "Jost", sans-serif;
 }
 
+
+/* Hide scrollbars visually but keep scrolling */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+
 /* Base Styles */
+
 @layer base {
   body {
     background-color: white;
-    color: var(--color-brand-dark);
+    /* Changed from brand-dark to brand-sage-dark for a softer but visible look */
+    color: var(--color-brand-sage-dark);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4 {
+
+  
+  h1, h2, h3 {
     font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.2em; 
+    font-weight: 400;
+    /* Ensure headings are never faded */
+    color: var(--color-brand-sage-dark); 
+  }
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.2em; 
+    font-weight: 400;
+    /* Ensure headings are never faded */
+    color: var(--color-brand-sage-dark); 
   }
 }
 
