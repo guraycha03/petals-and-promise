@@ -10,23 +10,17 @@ import {
   Calendar
 } from 'lucide-react';
 
-
 // Ensure this points to hooks
 import { useCart } from '../hooks/useCart';
-
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showSubHeader, setShowSubHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Get the cart items from global state
   const { cart } = useCart();
-
-  // Calculate total items (sum of all quantities)
   const totalItems = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
-  // Scroll logic to hide/show sub-header
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
@@ -84,11 +78,8 @@ const Header = () => {
                 <Search size={20} strokeWidth={1.5} />
               </button>
               
-              {/* SYNCED SHOPPING BAG */}
               <Link to="/cart" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
                 <ShoppingBag size={20} strokeWidth={1.5} />
-                
-                {/* Only show badge if there are items */}
                 {totalItems > 0 && (
                   <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold animate-in fade-in zoom-in duration-300">
                     {totalItems}
@@ -106,18 +97,10 @@ const Header = () => {
           }`}
         >
           <div className="max-w-7xl mx-auto px-10 h-14 flex justify-center items-center gap-12">
-            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
-              New Arrivals
-            </Link>
-            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
-              Bridal Gowns
-            </Link>
-            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
-              Sustainable Silk
-            </Link>
-            <Link to="/contact" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">
-              Book a Viewing
-            </Link>
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">New Arrivals</Link>
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">Bridal Gowns</Link>
+            <Link to="/collections" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">Sustainable Silk</Link>
+            <Link to="/contact" className="text-xs uppercase tracking-[0.15em] text-brand-sage-dark hover:text-brand-primary transition-colors font-medium">Book a Viewing</Link>
           </div>
         </nav>
       </div>
@@ -132,10 +115,22 @@ const Header = () => {
       
       {/* --- SIDE MENU PANEL --- */}
       <aside className={`fixed top-0 left-0 h-full w-full max-w-[420px] bg-white z-[130] shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.2,1)] ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex flex-col h-full pt-32 px-10 md:px-16 pb-12 overflow-y-auto">
-          <nav className="flex flex-col space-y-10">
+  isOpen ? 'translate-x-0' : '-translate-x-full'
+}`}>
+  
+  <button 
+    onClick={toggleMenu}
+    className="absolute top-8 right-8 p-2 text-brand-sage-dark hover:text-brand-primary transition-colors lg:hidden"
+    aria-label="Close menu"
+  >
+    <X size={28} strokeWidth={1} />
+  </button>
+
+  {/* UPDATED LINE BELOW: Added scrollbar-hide */}
+  <div className="flex flex-col h-full pt-32 px-10 md:px-16 pb-12 overflow-y-auto scrollbar-hide">
+    <nav className="flex flex-col space-y-10">
+
+        
             {/* Atelier Section */}
             <div className="space-y-6">
               <span className="block text-sm uppercase tracking-[0.3em] text-brand-primary font-medium border-b border-brand-sage-light pb-2">The Atelier</span>
@@ -154,7 +149,7 @@ const Header = () => {
                   <Calendar size={22} strokeWidth={1} />
                   Book Appointment
                 </Link>
-                <Link to="/contact" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">The Sorsogon Studio</Link>
+                <Link to="/contact" onClick={toggleMenu} className="text-2xl font-serif text-brand-sage-dark hover:text-brand-primary transition-all duration-300 hover:translate-x-2">Petal & Promise Studio</Link>
               </div>
             </div>
 
@@ -169,7 +164,6 @@ const Header = () => {
             </div>
           </nav>
 
-          {/* Menu Footer */}
           <div className="mt-16 pt-10 border-t border-brand-sage-light">
             <div className="flex gap-8 text-brand-sage-dark mb-6">
               <a href="#" className="hover:text-brand-primary transition-transform hover:-translate-y-1"><Instagram size={24} strokeWidth={1} /></a>

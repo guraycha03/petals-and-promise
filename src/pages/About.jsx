@@ -10,27 +10,30 @@ const About = () => {
           <div className="space-y-8">
             <span className="text-[11px] uppercase tracking-[0.5em] text-brand-primary font-bold block">Our Story</span>
             <h2 className="text-4xl md:text-7xl font-serif text-brand-sage-dark leading-[1.1]">
-              Crafted in Manila, <br/> Vowed in <span className="italic">Beauty.</span>
+              Designed in Bicol, <br/> Vowed in <span className="italic">Beauty.</span>
             </h2>
             <div className="w-16 h-[1px] bg-brand-primary"></div>
             <p className="text-brand-sage-dark/90 leading-relaxed max-w-md font-sans text-sm md:text-base">
-              Founded in 2025, Petals & Promise began as a small atelier in the heart of Makati. 
+              Founded in 2025, Petals & Promise began as an intimate atelier in the heart of Sorsogon. 
               Our mission has always been simple: to create gowns that feel as natural and 
               delicate as a petal, yet as enduring as the promise they represent.
+            </p>
+            <p className="text-brand-sage-dark/70 leading-relaxed max-w-md font-sans text-sm">
+              Today, we welcome brides to our flagship studio at the Rompe Building, 
+              where every stitch tells a story of local artistry and sustainable luxury.
             </p>
           </div>
           <div className="relative group">
             <div className="aspect-[4/5] bg-brand-cream rounded-sm overflow-hidden">
                <img 
-                 src="https://images.unsplash.com/photo-1594462250122-b1322b3f278b?auto=format&fit=crop&q=80&w=1000" 
-                 alt="The Atelier" 
+                 src="/images/collections/image-3.png" 
                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                />
             </div>
-            {/* Floating Badge */}
+            {/* Floating Badge - Updated to match Sorsogon Studio */}
             <div className="absolute -bottom-6 -left-6 bg-white p-8 shadow-xl hidden md:block border border-brand-sage-light/30">
                <p className="font-serif italic text-2xl text-brand-sage-dark">Est. 2025</p>
-               <p className="text-[9px] uppercase tracking-widest text-brand-primary font-bold">The Manila House</p>
+               <p className="text-[9px] uppercase tracking-widest text-brand-primary font-bold">The Sorsogon House</p>
             </div>
           </div>
         </div>
@@ -44,14 +47,25 @@ const About = () => {
              <p className="text-xs text-brand-sage-dark/70 leading-loose uppercase tracking-widest">Slow fashion practices that prioritize the planet.</p>
           </div>
           <div className="space-y-4">
-             <h4 className="font-serif text-xl text-brand-sage-dark">Filipino Artistry</h4>
-             <p className="text-xs text-brand-sage-dark/70 leading-loose uppercase tracking-widest">Empowering local seamstresses and textile artisans.</p>
+             <h4 className="font-serif text-xl text-brand-sage-dark">Bicolano Artistry</h4>
+             <p className="text-xs text-brand-sage-dark/70 leading-loose uppercase tracking-widest">Empowering local seamstresses and textile artisans in Sorsogon.</p>
           </div>
           <div className="space-y-4">
              <h4 className="font-serif text-xl text-brand-sage-dark">Modern Romantic</h4>
              <p className="text-xs text-brand-sage-dark/70 leading-loose uppercase tracking-widest">Silhouettes designed for the contemporary woman.</p>
           </div>
         </div>
+      </div>
+
+      {/* --- CTA SECTION --- */}
+      <div className="py-24 px-6 text-center max-w-2xl mx-auto">
+        <h3 className="font-serif text-3xl text-brand-sage-dark mb-6">Experience the Atelier</h3>
+        <p className="text-sm text-brand-sage-dark/70 mb-10 leading-relaxed uppercase tracking-widest">
+          Visit us at Magsaysay Street for a private viewing and consultation.
+        </p>
+        <Link to="/contact" className="bg-brand-sage-dark text-white px-10 py-4 text-[11px] uppercase tracking-[0.3em] hover:bg-brand-primary transition-all">
+          Book an Appointment
+        </Link>
       </div>
     </section>
   );
