@@ -23,29 +23,49 @@ const Home = () => {
 
 
   return (
-    <section className="pt-20 overflow-hidden bg-white">
+    <section className="pt-24 overflow-hidden bg-white">
+      
       {/* --- HERO SECTION --- */}
-      <div className="relative h-[85vh] flex items-center justify-center bg-brand-cream">
-        <div className="z-10 text-center px-6 max-w-4xl">
-          <span className="text-[11px] uppercase tracking-[0.6em] text-brand-sage-dark font-bold mb-8 block animate-fade-in">
+      <div className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image Container */}
+        <div className="absolute inset-0">
+          <img 
+            src="/images/hero-bg.png" // Replace with your high-res hero image
+            alt="Hero Background" 
+            className="w-full h-full object-cover scale-105 animate-slow-zoom" 
+          />
+          {/* Sophisticated Overlay: Radial gradient makes the center slightly clearer than the edges */}
+          <div className="absolute inset-0 bg-black/30 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+        </div>
+
+        <div className="relative z-10 text-center px-6 max-w-4xl">
+          <span className="text-[11px] md:text-[12px] uppercase tracking-[0.8em] text-white font-bold mb-8 block drop-shadow-sm">
             The 2025 Atelier
           </span>
           
-          <h1 className="text-5xl md:text-8xl font-serif text-brand-sage-dark mb-10 leading-[1.1] tracking-tight">
+          <h1 className="text-6xl md:text-9xl font-serif text-white mb-10 leading-[1.1] tracking-tight drop-shadow-md">
             Petals & Promise
           </h1>
           
-          <p className="max-w-md mx-auto text-[11px] md:text-xs text-brand-sage-dark/90 uppercase tracking-[0.3em] mb-12 leading-relaxed font-medium">
+          <p className="max-w-md mx-auto text-[11px] md:text-xs text-white/90 uppercase tracking-[0.4em] mb-12 leading-relaxed font-medium drop-shadow-sm">
             Handcrafted silhouettes <br className="hidden md:block" /> 
             for the modern romantic.
           </p>
 
-          <Link 
-            to="/collections" 
-            className="inline-block text-sm md:text-base font-medium uppercase tracking-wide text-white bg-brand-sage-dark px-6 py-3 md:px-8 md:py-4 rounded-lg hover:bg-brand-primary transition-all"
-          >
-            Explore the Collection
-          </Link>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <Link 
+              to="/collections" 
+              className="w-full md:w-auto inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-brand-sage-dark bg-white px-10 py-5 hover:bg-brand-blush hover:text-brand-sage-dark transition-all duration-500 shadow-xl"
+            >
+              Explore Collection
+            </Link>
+            <Link 
+              to="/contact" 
+              className="w-full md:w-auto inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-white border border-white/40 backdrop-blur-sm px-10 py-5 hover:bg-white hover:text-brand-sage-dark transition-all duration-500"
+            >
+              Book a Viewing
+            </Link>
+          </div>
         </div>
       </div>
 

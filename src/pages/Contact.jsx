@@ -113,7 +113,7 @@ const Contact = () => {
             {/* Sorsogon Inspired Visual */}
             <div className="aspect-[16/9] bg-brand-sage-light/30 rounded-sm relative overflow-hidden group border border-brand-sage-light/20">
                <img 
-                 src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=1000" 
+                 src="/images/hero-bg.png" 
                  alt="Sorsogon Coastal Vibe" 
                  className="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-60 transition-opacity duration-700"
                />
