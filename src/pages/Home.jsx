@@ -11,6 +11,17 @@ const Home = () => {
     dragFree: true 
   });
 
+  // Helper to shuffle array
+  const shuffle = (array) => [...array].sort(() => Math.random() - 0.5);
+
+  // Randomize Carousel Items
+  const carouselProducts = React.useMemo(() => shuffle(PRODUCTS), []);
+
+  // Randomize New Arrival Items
+  const newArrivalProducts = React.useMemo(() => shuffle(PRODUCTS).slice(0, 4), []);
+
+
+
   return (
     <section className="pt-20 overflow-hidden bg-white">
       {/* --- HERO SECTION --- */}
@@ -82,7 +93,7 @@ const Home = () => {
 
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-2 md:gap-10 px-6 md:px-12">
-            {PRODUCTS.map((item) => (
+            {carouselProducts.map((item) => ( // Changed from PRODUCTS to carouselProducts
               <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
                 <ProductCard product={item} />
               </div>
@@ -90,6 +101,48 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+
+
+      {/* --- NEW ARRIVALS GRID --- */}
+      <div className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <span className="text-[10px] uppercase tracking-[0.4em] text-brand-primary font-bold block mb-4">
+              The Latest Additions
+            </span>
+            <h2 className="text-3xl md:text-5xl font-serif text-brand-sage-dark tracking-wide">
+              New Arrivals
+            </h2>
+            <div className="w-12 h-[1px] bg-brand-sage-light mx-auto mt-6" />
+          </div>
+
+          {/* Using a static grid for a high-end gallery feel */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12 md:gap-x-8 md:gap-y-16">
+            {newArrivalProducts.map((item) => ( // Changed from PRODUCTS.slice to newArrivalProducts
+              <div key={item.id} className="group">
+                <ProductCard product={item} />
+                <div className="mt-4 overflow-hidden">
+                  <p className="text-[9px] uppercase tracking-widest text-brand-sage-dark/40">
+                    Limited Edition
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-20 text-center">
+            <Link 
+              to="/collections" 
+              className="inline-block border border-brand-sage-dark/20 px-12 py-4 text-[11px] uppercase tracking-[0.2em] text-brand-sage-dark hover:bg-brand-sage-dark hover:text-white transition-all duration-700"
+            >
+              View Full Collection
+            </Link>
+          </div>
+        </div>
+      </div>
+
+
 
       {/* --- BRAND PHILOSOPHY --- */}
       <div className="py-24 bg-brand-blush/5 border-t border-brand-sage-light/20">
