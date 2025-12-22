@@ -53,15 +53,31 @@ const Header = () => {
               </span>
             </Link>
 
+            {/* --- Updated Search Icon for All Screens --- */}
             <div className="flex items-center justify-end gap-1 md:gap-4 min-w-[100px]">
-              <button className="p-2 text-brand-sage-dark hover:text-brand-primary transition-colors hidden md:block"><Search size={20} strokeWidth={1.5} /></button>
+              <Link 
+                to="/search" 
+                className="p-2 text-brand-sage-dark hover:text-brand-primary transition-colors"
+              >
+                <Search size={20} strokeWidth={1.5} />
+              </Link>
+              
               <Link to="/wishlist" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
                 <Heart size={20} strokeWidth={1.5} />
-                {wishlist.length > 0 && <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">{wishlist.length}</span>}
+                {wishlist.length > 0 && (
+                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">
+                    {wishlist.length}
+                  </span>
+                )}
               </Link>
+
               <Link to="/cart" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
                 <ShoppingBag size={20} strokeWidth={1.5} />
-                {totalItems > 0 && <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">{totalItems}</span>}
+                {totalItems > 0 && (
+                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">
+                    {totalItems}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

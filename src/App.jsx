@@ -20,7 +20,7 @@ import Wishlist from './pages/Wishlist'; // <--- Add this line
 import Profile from './pages/Profile'; // <--- Create this file in your pages folder
 import Checkout from './pages/Checkout';
 
-
+import SearchPage from './pages/Search'; // Ensure the filename matches
 
 import Orders from './pages/Orders'; // Import the Orders page
 
@@ -37,6 +37,7 @@ function App() {
                 <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/search" element={<SearchPage />} />
                     <Route path="/profile" element={<Profile />} /> 
                     <Route path="/orders" element={<Orders />} /> {/* Add this line */}
                     <Route path="/collections" element={<Collections />} />
