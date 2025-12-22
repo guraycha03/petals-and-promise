@@ -38,7 +38,8 @@ const Profile = () => {
 
   const triggerNotice = (msg) => {
     setNotification(msg);
-    setTimeout(() => setNotification(""), 3000);
+    // We keep it visible for 4 seconds to allow the progress bar to finish
+    setTimeout(() => setNotification(""), 4000);
   };
 
   const handlePhoneChange = (e) => {
@@ -66,10 +67,28 @@ const Profile = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white relative">
       {notification && (
-        <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[200] animate-in fade-in slide-in-from-top-4 duration-500">
-          <div className="bg-brand-sage-dark text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3">
-            <CheckCircle2 size={18} className="text-brand-primary" />
-            <span className="text-xs uppercase tracking-widest font-bold">{notification}</span>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[250] w-[90%] max-w-sm">
+          <div className="bg-brand-sage-dark text-white p-1 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden animate-in fade-in slide-in-from-top-8 duration-500">
+            <div className="px-6 py-4 flex items-center gap-4">
+              {/* Animated Icon Circle */}
+              <div className="flex-shrink-0 w-8 h-8 bg-brand-primary rounded-full flex items-center justify-center animate-pulse">
+                <CheckCircle2 size={16} className="text-brand-sage-dark" />
+              </div>
+              
+              <div className="flex-grow">
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-brand-primary mb-0.5">Success</p>
+                <p className="text-xs font-serif italic text-white/90">{notification}</p>
+              </div>
+
+              <button onClick={() => setNotification("")} className="text-white/40 hover:text-white transition-colors">
+                <X size={14} />
+              </button>
+            </div>
+
+            {/* Aesthetic Progress Bar */}
+            <div className="h-0.5 bg-brand-primary/20 w-full">
+              <div className="h-full bg-brand-primary animate-progress-shrink origin-left" />
+            </div>
           </div>
         </div>
       )}
