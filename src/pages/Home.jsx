@@ -183,7 +183,7 @@ const Home = () => {
           <div className="relative">
             <div className="aspect-[4/5] bg-brand-cream rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="/images/collections/sheer-blouse.png" 
+                src="/images/bg.jpg" 
                 alt="Detailing" 
                 className="w-full h-full object-cover mix-blend-multiply" 
               />
