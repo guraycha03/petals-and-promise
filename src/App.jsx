@@ -15,6 +15,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart'; 
 import Wishlist from './pages/Wishlist'; // <--- Add this line
+import Profile from './pages/Profile'; // <--- Create this file in your pages folder
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} /> 
               <Route path="/collections" element={<Collections />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
