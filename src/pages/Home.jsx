@@ -39,38 +39,32 @@ const Home = () => {
       </div>
 
       {/* --- CAROUSEL SECTION --- */}
-      <div className="py-20 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-serif text-brand-sage-dark tracking-wide">
-              Featured Pieces
-            </h2>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-brand-primary font-bold mt-3">
-              Curated for the Bloom Collection
-            </p>
-          </div>
-          <Link to="/collections" className="text-[10px] uppercase tracking-[0.2em] text-brand-sage-dark border-b border-brand-sage-dark pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
-            Shop All
-          </Link>
+      {/* --- CAROUSEL SECTION --- */}
+<div className="py-20 md:py-32 bg-slate-50"> {/* Light greyish bg to let beige cards pop */}
+  <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+    <div>
+      <h2 className="text-3xl md:text-4xl font-serif text-brand-sage-dark tracking-wide">
+        Featured Pieces
+      </h2>
+      <p className="text-[10px] uppercase tracking-[0.3em] text-brand-primary font-bold mt-3">
+        Curated for the Bloom Collection
+      </p>
+    </div>
+    <Link to="/collections" className="text-[10px] uppercase tracking-[0.2em] text-brand-sage-dark border-b border-brand-sage-dark pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
+      Shop All
+    </Link>
+  </div>
+
+  <div className="overflow-hidden" ref={emblaRef}>
+    <div className="flex gap-2 md:gap-10 px-6 md:px-12">
+      {PRODUCTS.map((item) => (
+        <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
+          <ProductCard product={item} />
         </div>
-
-        {/* --- CAROUSEL SECTION --- */}
-        <div className="overflow-hidden" ref={emblaRef}>
-          {/* Changed gap-4 to gap-2 for mobile to save space */}
-          <div className="flex gap-2 md:gap-10 px-6 md:px-12">
-            {PRODUCTS.map((item) => (
-              /* Change flex-[0_0_65%] to flex-[0_0_46%] 
-                This ensures 2 cards (46% + 46% = 92%) fit perfectly with the gap 
-              */
-              <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
-                <ProductCard product={item} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
 
       {/* --- BRAND PHILOSOPHY --- */}
       <div className="py-24 bg-brand-blush/5 border-t border-brand-sage-light/20">
