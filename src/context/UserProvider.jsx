@@ -6,7 +6,7 @@ export const UserProvider = ({ children }) => {
     const saved = localStorage.getItem('pp-user-v1');
     return saved ? JSON.parse(saved) : {
       name: "Eleanor Rigby",
-      email: "eleanor@example.com",
+      email: "eleanor@gmail.com",
       phone: "",
       address: "",
       city: "",

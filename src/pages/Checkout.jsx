@@ -30,7 +30,7 @@ const Checkout = () => {
   const [form, setForm] = useState({
     name: profile.name || "",
     email: profile.email || "",
-    phone: profile.phone || "",
+    phone: profile.phone || "", // This pulls the data you just saved in Profile
     address: profile.address || "",
     city: profile.city || "",
     postalCode: profile.postalCode || ""

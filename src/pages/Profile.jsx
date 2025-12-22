@@ -10,9 +10,44 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(profile);
 
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
+
+
+  const COUNTRY_CODES = [
+    { code: '+63', flag: '🇵🇭', label: 'PH' }, // Philippines
+    { code: '+1', flag: '🇺🇸', label: 'US' },  // USA / Canada
+    { code: '+44', flag: '🇬🇧', label: 'UK' }, // United Kingdom
+    { code: '+61', flag: '🇦🇺', label: 'AU' }, // Australia
+    { code: '+65', flag: '🇸🇬', label: 'SG' }, // Singapore
+    { code: '+81', flag: '🇯🇵', label: 'JP' }, // Japan
+    { code: '+82', flag: '🇰🇷', label: 'KR' }, // South Korea
+    { code: '+852', flag: '🇭🇰', label: 'HK' }, // Hong Kong
+    { code: '+971', flag: '🇦🇪', label: 'AE' }, // UAE
+    { code: '+33', flag: '🇫🇷', label: 'FR' }, // France
+    { code: '+49', flag: '🇩🇪', label: 'DE' }, // Germany
+    { code: '+39', flag: '🇮🇹', label: 'IT' }, // Italy
+    { code: '+60', flag: '🇲🇾', label: 'MY' }, // Malaysia
+    { code: '+62', flag: '🇮🇩', label: 'ID' }, // Indonesia
+    { code: '+66', flag: '🇹🇭', label: 'TH' }, // Thailand
+    { code: '+86', flag: '🇨🇳', label: 'CN' }, // China
+    { code: '+91', flag: '🇮🇳', label: 'IN' }, // India
+    { code: '+886', flag: '🇹🇼', label: 'TW' }, // Taiwan
+    { code: '+34', flag: '🇪🇸', label: 'ES' }, // Spain
+    { code: '+41', flag: '🇨🇭', label: 'CH' }, // Switzerland
+  ];
+
   const triggerNotice = (msg) => {
     setNotification(msg);
     setTimeout(() => setNotification(""), 3000);
+  };
+
+  const handlePhoneChange = (e) => {
+  
+    const val = e.target.value.replace(/\D/g, '');
+    // Constrain to 10 digits (standard for PH/US mobile after prefix)
+    if (val.length <= 10) {
+      setFormData({ ...formData, phone: val });
+    }
   };
 
   const handleSave = () => {
@@ -20,6 +55,8 @@ const Profile = () => {
     setIsEditing(false);
     triggerNotice("Profile Securely Updated");
   };
+
+
 
   const profileActions = [
     { icon: <Package size={20} />, label: "My Orders", path: "/orders", desc: "View history" },
@@ -83,6 +120,76 @@ const Profile = () => {
             
             {isEditing ? (
               <div className="space-y-6 animate-in fade-in duration-500">
+                {/* Add this inside the "isEditing" block, before the Shipping Address label */}
+                <div className="grid grid-cols-1 gap-2">
+      <label className="text-[10px] uppercase tracking-widest text-brand-primary font-bold">
+        Phone Number
+      </label>
+      <div className="flex gap-2 relative">
+        
+        {/* CUSTOM COUNTRY PICKER */}
+        <div className="relative">
+          <div 
+            onClick={() => setIsCountryOpen(!isCountryOpen)}
+            className="h-full flex items-center gap-3 pl-4 pr-10 bg-brand-cream/20 border border-brand-sage-light/30 rounded-xl cursor-pointer hover:border-brand-primary transition-all text-sm font-serif text-brand-sage-dark min-w-[110px]"
+          >
+            {/* Find the flag. If profile.countryCode is missing, default to +63 emoji */}
+            {/* Find the flag. If formData.countryCode is missing, default to the PH flag emoji */}
+<span className="text-lg leading-none">
+  {COUNTRY_CODES.find(c => c.code === formData.countryCode)?.flag || '🇵🇭'}
+</span>
+<span className="font-medium">{formData.countryCode || '+63'}</span>
+
+
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-sage-dark/30">
+              <ChevronRight size={14} className={`transition-transform duration-300 ${isCountryOpen ? '-rotate-90' : 'rotate-90'}`} />
+            </div>
+          </div>
+
+          {/* DROPDOWN LIST */}
+          {isCountryOpen && (
+            <>
+              {/* This backdrop ensures the menu closes when you click away */}
+              <div className="fixed inset-0 z-[100]" onClick={() => setIsCountryOpen(false)} />
+              
+              <div className="absolute top-[calc(100%+8px)] left-0 min-w-[160px] bg-white border border-brand-sage-light/20 rounded-2xl shadow-xl z-[110] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="py-2 max-h-60 overflow-y-auto">
+                  {COUNTRY_CODES.map((c) => (
+                    <div 
+                      key={c.code}
+                      onClick={() => {
+                        setFormData({ ...formData, countryCode: c.code });
+                        setIsCountryOpen(false);
+                      }}
+                      className="flex items-center gap-4 px-4 py-3 hover:bg-brand-cream/40 cursor-pointer transition-colors"
+                    >
+                      {/* Using a span with a specific font-family can help with emoji rendering */}
+                      <span className="text-xl inline-block">{c.flag}</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-brand-sage-dark">{c.code}</span>
+                        <span className="text-[9px] uppercase tracking-tighter text-brand-sage-dark/40">{c.label}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Numeric Input */}
+        <input 
+          type="text"
+          inputMode="numeric"
+          className="flex-1 p-4 bg-brand-cream/20 border border-brand-sage-light/30 rounded-xl outline-none focus:border-brand-primary transition-colors text-brand-sage-dark placeholder:text-brand-sage-dark/20"
+          value={formData.phone || ""}
+          onChange={handlePhoneChange}
+          placeholder="917 123 4567"
+        />
+      </div>
+      <p className="text-[9px] text-brand-sage-dark/40 italic ml-1">Numeric digits only, max 10 characters.</p>
+    </div>
+
                 <div className="grid grid-cols-1 gap-4">
                   <label className="text-[10px] uppercase tracking-widest text-brand-primary font-bold">Shipping Address</label>
                   <input 
@@ -128,10 +235,17 @@ const Profile = () => {
                   </Link>
                 ))}
                 <div className="p-6 bg-brand-cream/10 border border-dashed border-brand-sage-light rounded-xl">
-                  <p className="text-[10px] uppercase tracking-widest text-brand-sage-dark/40 mb-2">Saved Shipping Address</p>
-                  <p className="text-sm text-brand-sage-dark/80">{profile.address || "No address saved. Click edit to update."}</p>
-                  <p className="text-sm text-brand-sage-dark/80">{profile.city} {profile.postalCode}</p>
-                </div>
+  <p className="text-[10px] uppercase tracking-widest text-brand-sage-dark/40 mb-2">Saved Details</p>
+  <p className="text-sm text-brand-sage-dark font-medium mb-1">
+    <span className="mr-2">
+      {/* Fallback to PH flag if no code is saved in the profile yet */}
+      {COUNTRY_CODES.find(c => c.code === profile.countryCode)?.flag || '🇵🇭'}
+    </span>
+    {profile.countryCode || '+63'} {profile.phone || "No phone saved"}
+  </p>
+  <p className="text-sm text-brand-sage-dark/80">{profile.address || "No address saved"}</p>
+  <p className="text-sm text-brand-sage-dark/80">{profile.city} {profile.postalCode}</p>
+</div>
               </div>
             )}
           </div>
