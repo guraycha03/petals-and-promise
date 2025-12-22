@@ -27,14 +27,43 @@ const Checkout = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [form, setForm] = useState({
+
+  const COUNTRY_CODES = [
+    { code: '+63', flag: '🇵🇭' },
+    { code: '+1', flag: '🇺🇸' },
+    { code: '+44', flag: '🇬🇧' },
+    { code: '+61', flag: '🇦🇺' },
+    { code: '+65', flag: '🇸🇬' },
+    { code: '+81', flag: '🇯🇵' },
+    { code: '+82', flag: '🇰🇷' },
+    { code: '+852', flag: '🇭🇰' },
+    { code: '+971', flag: '🇦🇪' },
+    { code: '+33', flag: '🇫🇷' },
+    { code: '+49', flag: '🇩🇪' },
+    { code: '+39', flag: '🇮🇹' },
+    { code: '+60', flag: '🇲🇾' },
+    { code: '+62', flag: '🇮🇩' },
+    { code: '+66', flag: '🇹🇭' },
+    { code: '+86', flag: '🇨🇳' },
+    { code: '+91', flag: '🇮🇳' },
+    { code: '+886', flag: '🇹🇼' },
+    { code: '+34', flag: '🇪🇸' },
+    { code: '+41', flag: '🇨🇭' },
+    ];
+
+    // Add this state for the dropdown toggle
+    const [isCountryOpen, setIsCountryOpen] = useState(false);
+
+    // Update your form state to include countryCode
+    const [form, setForm] = useState({
     name: profile.name || "",
     email: profile.email || "",
-    phone: profile.phone || "", // This pulls the data you just saved in Profile
+    countryCode: profile.countryCode || "+63", // Pull from profile
+    phone: profile.phone || "",
     address: profile.address || "",
     city: profile.city || "",
     postalCode: profile.postalCode || ""
-  });
+    });
 
   const subtotal = checkoutItems.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
   const shipping = 250;
@@ -119,15 +148,60 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-brand-sage-dark/40 ml-1">Phone Number</label>
-                  <input 
-                    required type="tel" 
-                    value={form.phone}
-                    onChange={(e) => setForm({...form, phone: e.target.value})}
-                    placeholder="+63 9XX XXX XXXX" 
-                    className="w-full bg-white border border-brand-sage-light/30 rounded-lg py-4 px-5 focus:border-brand-primary outline-none transition-all shadow-sm" 
-                  />
+  <label className="text-[10px] uppercase tracking-widest text-brand-sage-dark/40 ml-1">Phone Number</label>
+  <div className="flex gap-2 relative">
+    
+    {/* COUNTRY PICKER */}
+    <div className="relative">
+      <div 
+        onClick={() => setIsCountryOpen(!isCountryOpen)}
+        className="h-full flex items-center gap-2 px-4 bg-white border border-brand-sage-light/30 rounded-lg cursor-pointer hover:border-brand-primary transition-all text-sm font-serif text-brand-sage-dark min-w-[90px]"
+      >
+        <span className="text-lg">
+          {COUNTRY_CODES.find(c => c.code === form.countryCode)?.flag || '🇵🇭'}
+        </span>
+        <span className="font-medium">{form.countryCode}</span>
+      </div>
+
+      {isCountryOpen && (
+        <>
+          <div className="fixed inset-0 z-[100]" onClick={() => setIsCountryOpen(false)} />
+          <div className="absolute top-[calc(100%+8px)] left-0 min-w-[120px] bg-white border border-brand-sage-light/20 rounded-xl shadow-xl z-[110] overflow-hidden">
+            <div className="py-2 max-h-48 overflow-y-auto">
+              {COUNTRY_CODES.map((c) => (
+                <div 
+                  key={c.code}
+                  onClick={() => {
+                    setForm({ ...form, countryCode: c.code });
+                    setIsCountryOpen(false);
+                  }}
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-brand-cream/40 cursor-pointer transition-colors"
+                >
+                  <span>{c.flag}</span>
+                  <span className="text-xs font-bold text-brand-sage-dark">{c.code}</span>
                 </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+
+    {/* ACTUAL PHONE INPUT */}
+    <input 
+      required 
+      type="tel" 
+      value={form.phone} 
+      onChange={(e) => {
+        const val = e.target.value.replace(/\D/g, '');
+        if (val.length <= 10) setForm({...form, phone: val});
+      }}
+      placeholder="917 123 4567" 
+      className="flex-1 bg-white border border-brand-sage-light/30 rounded-lg py-4 px-5 focus:border-brand-primary outline-none transition-all shadow-sm" 
+    />
+  </div>
+</div>
+
               </div>
             </section>
 
