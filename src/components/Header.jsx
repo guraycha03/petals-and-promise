@@ -52,29 +52,56 @@ const Header = () => {
       <div className="fixed top-0 left-0 w-full z-[110] flex flex-col pointer-events-none">
         
         {/* --- MAIN HEADER BAR --- */}
-        <header className="w-full bg-white border-b border-brand-sage-light h-20 flex items-center z-[120] pointer-events-auto">
-          <div className="max-w-7xl mx-auto px-4 md:px-10 w-full flex justify-between items-center relative">
-            
-            {/* LEFT: Menu Toggle */}
-            <button 
-              onClick={toggleMenu} 
-              className="flex items-center gap-2 md:gap-4 outline-none group min-w-[100px]"
-            >
-              <div className="relative w-6 h-6 flex items-center justify-center text-brand-sage-dark">
-                {isOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-              </div>
-              <span className="text-xs uppercase tracking-[0.2em] hidden lg:block text-brand-sage-dark group-hover:text-brand-primary transition-colors font-medium">
-                Menu
-              </span>
-            </button>
+<header className="w-full bg-white border-b border-brand-sage-light h-20 flex items-center z-[120] pointer-events-auto">
+  <div className="max-w-7xl mx-auto px-4 md:px-10 w-full flex justify-between items-center relative">
+    
+    {/* LEFT: Menu Toggle & Mobile Logo Group */}
+    <div className="flex items-center gap-4 min-w-[100px]">
+      <button 
+        onClick={toggleMenu} 
+        className="flex items-center gap-2 md:gap-4 outline-none group"
+      >
+        <div className="relative w-6 h-6 flex items-center justify-center text-brand-sage-dark">
+          {isOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+        </div>
+        <span className="text-xs uppercase tracking-[0.2em] hidden lg:block text-brand-sage-dark group-hover:text-brand-primary transition-colors font-medium">
+          Menu
+        </span>
+      </button>
 
-            {/* CENTER: BRAND LOGO */}
-            <Link 
-              to="/" 
-              className="absolute left-1/2 -translate-x-1/2 text-sm md:text-lg font-serif tracking-[0.5em] text-brand-sage-dark uppercase whitespace-nowrap px-4"
-            >
-              Petals & Promise
-            </Link>
+      {/* MOBILE LOGO: Shows only on small screens, positioned to the left next to Menu */}
+      <Link to="/" className="md:hidden block">
+        <img 
+          src="/logo-icon.jpg" 
+          alt="Petals & Promise Logo" 
+          className="h-10 w-auto object-contain"
+        />
+      </Link>
+    </div>
+
+    {/* DESKTOP LOGO: Absolutely centered, shows only on md screens and up */}
+    <Link 
+      to="/" 
+      className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center px-4"
+    >
+      <span className="text-lg font-serif text-brand-sage-dark uppercase whitespace-nowrap flex items-center">
+        {/* Left Plant Icon - Using your specific Brand Sage Color */}
+        <span className="text-2xl text-[#889C62] font-sans leading-none select-none translate-y-[-2px]">
+          ⚘
+        </span>
+        
+        {/* Main Brand Text */}
+        <span className="tracking-[0.5em] px-5">
+          Petals & Promise
+        </span>
+        
+        {/* Right Plant Icon - Using your specific Brand Sage Color */}
+        <span className="text-2xl text-[#889C62] font-sans leading-none select-none translate-y-[-2px]">
+          ⚘
+        </span>
+      </span>
+
+    </Link>
 
             {/* RIGHT: Actions */}
             <div className="flex items-center justify-end gap-1 md:gap-4 min-w-[100px]">
