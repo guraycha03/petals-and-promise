@@ -7,8 +7,8 @@ export const PRODUCTS = [
     collection: "Spring Bloom 2025",
     image: "/images/collections/image-1.png",
     gallery: [
-      "/images/collections/image-1-back.png",
-      "/images/collections/image-1-detail.png"
+      "/images/collections/image-1.png",
+      "/images/collections/image-1.png"
     ],
     category: "A-Line",
     silhouette: "Classic A-Line",
@@ -35,7 +35,7 @@ export const PRODUCTS = [
     price: 245000,
     collection: "Eternal Romance",
     image: "/images/collections/image-2.png",
-    gallery: ["/images/collections/image-2-alt.png"],
+    gallery: ["/images/collections/image-2.png"],
     category: "Ballgown",
     silhouette: "Grand Ballgown",
     neckline: "Sweetheart",
@@ -61,7 +61,7 @@ export const PRODUCTS = [
     price: 155000,
     collection: "Minimalist Petals",
     image: "/images/collections/image-3.png",
-    gallery: ["/images/collections/image-3-detail.png"],
+    gallery: ["/images/collections/image-3.png"],
     category: "Sheath",
     silhouette: "90s Slip Silhouette",
     neckline: "Cowl Neck",
@@ -92,10 +92,10 @@ export const PRODUCTS = [
     name: "Rose-Marie Petal Gown",
     price: 185000,
     collection: "Spring Bloom 2025",
-    image: "/images/collections/image-1.png",
+    image: "/images/collections/image-4.png",
     gallery: [
-      "/images/collections/image-1-back.png",
-      "/images/collections/image-1-detail.png"
+      "/images/collections/image-4.png",
+      "/images/collections/image-4.png"
     ],
     category: "A-Line",
     silhouette: "Classic A-Line",
@@ -122,7 +122,7 @@ export const PRODUCTS = [
     price: 245000,
     collection: "Eternal Romance",
     image: "/images/collections/image-2.png",
-    gallery: ["/images/collections/image-2-alt.png"],
+    gallery: ["/images/collections/image-2.png"],
     category: "Ballgown",
     silhouette: "Grand Ballgown",
     neckline: "Sweetheart",
@@ -148,7 +148,7 @@ export const PRODUCTS = [
     price: 155000,
     collection: "Minimalist Petals",
     image: "/images/collections/image-3.png",
-    gallery: ["/images/collections/image-3-detail.png"],
+    gallery: ["/images/collections/image-3.png"],
     category: "Sheath",
     silhouette: "90s Slip Silhouette",
     neckline: "Cowl Neck",
