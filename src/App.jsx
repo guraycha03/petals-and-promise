@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 import { CartProvider } from './context/CartProvider'; // Note the 'Provider' suffix
-
+import { WishlistProvider } from './context/WishlistProvider';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -13,11 +13,14 @@ import Collections from './pages/Collections';
 import ProductDetail from './pages/ProductDetail';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Cart from './pages/Cart'; // You'll create this
+import Cart from './pages/Cart'; 
+import Wishlist from './pages/Wishlist'; // <--- Add this line
+
 
 function App() {
   return (
     <CartProvider>
+      <WishlistProvider>
       <Router>
         <ScrollToTop />
         <div className="min-h-screen flex flex-col bg-white selection:bg-brand-primary/20">
@@ -28,6 +31,7 @@ function App() {
               <Route path="/collections" element={<Collections />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
@@ -35,6 +39,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      </WishlistProvider>
     </CartProvider>
   );
 }

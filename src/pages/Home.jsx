@@ -54,15 +54,22 @@ const Home = () => {
           </Link>
         </div>
 
+        {/* --- CAROUSEL SECTION --- */}
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-4 md:gap-10 px-6 md:px-12">
+          {/* Changed gap-4 to gap-2 for mobile to save space */}
+          <div className="flex gap-2 md:gap-10 px-6 md:px-12">
             {PRODUCTS.map((item) => (
-              <div key={item.id} className="flex-[0_0_65%] md:flex-[0_0_25%] min-w-0">
+              /* Change flex-[0_0_65%] to flex-[0_0_46%] 
+                This ensures 2 cards (46% + 46% = 92%) fit perfectly with the gap 
+              */
+              <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
                 <ProductCard product={item} />
               </div>
             ))}
           </div>
         </div>
+
+
       </div>
 
       {/* --- BRAND PHILOSOPHY --- */}

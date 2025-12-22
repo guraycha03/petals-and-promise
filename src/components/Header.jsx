@@ -7,11 +7,14 @@ import {
   Instagram, 
   PinIcon as Pinterest, 
   Search,
-  Calendar
+  Calendar,
+  Heart  
 } from 'lucide-react';
 
 // Ensure this points to hooks
 import { useCart } from '../hooks/useCart';
+// Stop importing useWishlist from context, import from hooks instead
+import { useWishlist } from '../hooks/useWishlist';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +22,7 @@ const Header = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const totalItems = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
   useEffect(() => {
@@ -77,16 +81,27 @@ const Header = () => {
               <button className="p-2 text-brand-sage-dark hover:text-brand-primary transition-colors hidden md:block">
                 <Search size={20} strokeWidth={1.5} />
               </button>
+
+              {/* NEW: Wishlist Link */}
+              <Link to="/wishlist" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
+                <Heart size={20} strokeWidth={1.5} />
+                {wishlist.length > 0 && (
+                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">
+                    {wishlist.length}
+                  </span>
+                )}
+              </Link>
               
               <Link to="/cart" className="relative p-2 text-brand-sage-dark hover:text-brand-primary transition-colors">
                 <ShoppingBag size={20} strokeWidth={1.5} />
                 {totalItems > 0 && (
-                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold animate-in fade-in zoom-in duration-300">
+                  <span className="absolute top-1 right-0 w-4 h-4 bg-brand-primary text-[9px] flex items-center justify-center rounded-full text-white font-bold">
                     {totalItems}
                   </span>
                 )}
               </Link>
             </div>
+
           </div>
         </header>
 
