@@ -45,30 +45,33 @@ const ProductDetail = () => {
       <div className="flex flex-col lg:flex-row gap-12 xl:gap-24 items-start justify-center">
         
         {/* LEFT: Image Gallery */}
-        <div className="w-full lg:w-1/2 space-y-6 lg:sticky lg:top-32">
-          <div className="bg-brand-cream overflow-hidden rounded-sm aspect-[3/4] w-full max-h-[70vh] md:max-h-[80vh]">
-            <img 
-              src={allImages[activeImage]} 
-              alt={product.name} 
-              className="w-full h-full object-cover transition-all duration-700 hover:scale-105"
-            />
-          </div>
-          
-          {/* Thumbnails */}
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start">
-            {allImages.map((img, idx) => (
-              <button 
-                key={idx}
-                onClick={() => setActiveImage(idx)}
-                className={`flex-shrink-0 w-16 h-20 md:w-20 md:h-24 border transition-all ${
-                  activeImage === idx ? 'border-brand-sage-dark opacity-100' : 'border-transparent opacity-40 hover:opacity-100'
-                }`}
-              >
-                <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* LEFT: Image Gallery */}
+<div className="w-full lg:w-1/2 space-y-6 lg:sticky lg:top-32">
+  {/* 1. Removed aspect-[3/4] to let image dictate height */}
+  {/* 2. Changed max-h to allow breathing room for the full image */}
+  <div className="bg-brand-cream overflow-hidden rounded-sm flex items-start justify-center max-h-[70vh] md:max-h-[85vh]">
+    <img 
+      src={allImages[activeImage]} 
+      alt={product.name} 
+      className="w-full h-auto max-h-full object-contain transition-all duration-700" 
+    />
+  </div>
+  
+  {/* Thumbnails */}
+  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+    {allImages.map((img, idx) => (
+      <button 
+        key={idx}
+        onClick={() => setActiveImage(idx)}
+        className={`flex-shrink-0 w-16 h-20 md:w-20 md:h-24 border transition-all ${
+          activeImage === idx ? 'border-brand-sage-dark opacity-100' : 'border-transparent opacity-40 hover:opacity-100'
+        }`}
+      >
+        <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+      </button>
+    ))}
+  </div>
+</div>
 
         {/* RIGHT: Product Info */}
         <div className="w-full lg:w-1/2 flex flex-col">
