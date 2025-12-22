@@ -83,27 +83,34 @@ export const PRODUCTS = [
     "availability": "Made-to-order (6-8 weeks)",
     "featured": true
   },
+
   {
     "id": 5,
-    "sku": "ERT-VEL-005",
-    "name": "Velvet Midnight Wrap",
-    "price": 195000,
-    "collection": "Eternal Romance",
-    "image": "/images/collections/velvet-midnight.png",
-    "gallery": ["/images/collections/velvet-midnight.png"],
-    "category": "Evening Wear",
-    "silhouette": "Wrap Gown",
-    "neckline": "V-Neck",
-    "fabric": "Silk Velvet",
-    "color": "Midnight Blue",
-    "sizes": ["US 4", "US 6", "US 8", "US 10"],
-    "description": "A luxurious silk velvet wrap gown designed for high-profile winter evening events.",
-    "details": ["Silk velvet construction", "Hand-stitched borders", "Concealed pockets"],
-    "designerNotes": "The weight of the velvet provides a majestic drape.",
-    "careInstructions": "Specialist Velvet Clean Only",
+    "sku": "SB25-PIP-014",
+    "name": "Pippa Peplum Mini",
+    "price": 95000,
+    "collection": "Spring Bloom 2025",
+    "image": "/images/collections/peplum-mini.png",
+    "gallery": ["/images/collections/peplum-mini.png"],
+    "category": "Cocktail",
+    "silhouette": "Peplum Shift",
+    "neckline": "Scoop",
+    "fabric": "Textured Brocade",
+    "color": "Silver Lilac",
+    "sizes": ["US 0", "US 2", "US 4", "US 6"],
+    "description": "A modern peplum mini in a stunning metallic floral brocade.",
+    "details": ["Structural peplum", "Metallic finish", "Jeweled buttons"],
+    "designerNotes": "Perfect for a high-fashion rehearsal dinner.",
+    "careInstructions": "Dry Clean Only",
     "availability": "Limited Stock",
     "featured": false
   },
+
+  
+  
+
+
+
   {
     "id": 6,
     "sku": "MIN-COL-006",
@@ -188,27 +195,34 @@ export const PRODUCTS = [
     "availability": "Immediate Shipping",
     "featured": false
   },
+
   {
     "id": 10,
-    "sku": "ERT-ORC-010",
-    "name": "Orchid Lace Mermaid",
-    "price": 285000,
+    "sku": "ERT-GAR-013",
+    "name": "Gardenia Cathedral Gown",
+    "price": 450000,
     "collection": "Eternal Romance",
-    "image": "/images/collections/orchid-lace.png",
-    "gallery": ["/images/collections/orchid-lace.png"],
-    "category": "Mermaid",
-    "silhouette": "Mermaid / Trumpet",
-    "neckline": "Halter Neck",
-    "fabric": "Guipure Lace",
-    "color": "Antique Ivory",
-    "sizes": ["US 2", "US 4", "US 6", "US 8", "US 10"],
-    "description": "Exquisite Guipure lace sculpted into a dramatic mermaid silhouette.",
-    "details": ["Full Guipure lace", "Illusion back", "Power mesh lining"],
-    "designerNotes": "Sculpting the body like a work of art.",
-    "careInstructions": "Dry Clean Only",
-    "availability": "Made-to-order",
+    "image": "/images/collections/cathedral-gown.png",
+    "gallery": ["/images/collections/cathedral-gown.png"],
+    "category": "Ballgown",
+    "silhouette": "Cathedral Ballgown",
+    "neckline": "Queen Anne Neckline",
+    "fabric": "Zibeline Silk",
+    "color": "Pure Snow",
+    "sizes": ["US 2", "US 4", "US 6", "US 8"],
+    "description": "Our most dramatic piece. Sculptural Zibeline silk with a 3-meter train.",
+    "details": ["3-meter train", "Hand-carved silk petals", "Hidden corset"],
+    "designerNotes": "Pure architectural drama.",
+    "careInstructions": "Specialist Bridal Clean Only",
+    "availability": "Bespoke Only",
     "featured": true
   },
+
+
+  
+  
+
+
   {
     "id": 11,
     "sku": "SB25-CAM-011",
@@ -251,47 +265,52 @@ export const PRODUCTS = [
     "availability": "Immediate Shipping",
     "featured": false
   },
+  
+
+
   {
     "id": 13,
-    "sku": "ERT-GAR-013",
-    "name": "Gardenia Cathedral Gown",
-    "price": 450000,
+    "sku": "ERT-VEL-005",
+    "name": "Velvet Midnight Wrap",
+    "price": 195000,
     "collection": "Eternal Romance",
-    "image": "/images/collections/cathedral-gown.png",
-    "gallery": ["/images/collections/cathedral-gown.png"],
-    "category": "Ballgown",
-    "silhouette": "Cathedral Ballgown",
-    "neckline": "Queen Anne Neckline",
-    "fabric": "Zibeline Silk",
-    "color": "Pure Snow",
-    "sizes": ["US 2", "US 4", "US 6", "US 8"],
-    "description": "Our most dramatic piece. Sculptural Zibeline silk with a 3-meter train.",
-    "details": ["3-meter train", "Hand-carved silk petals", "Hidden corset"],
-    "designerNotes": "Pure architectural drama.",
-    "careInstructions": "Specialist Bridal Clean Only",
-    "availability": "Bespoke Only",
-    "featured": true
-  },
-  {
-    "id": 14,
-    "sku": "SB25-PIP-014",
-    "name": "Pippa Peplum Mini",
-    "price": 95000,
-    "collection": "Spring Bloom 2025",
-    "image": "/images/collections/peplum-mini.png",
-    "gallery": ["/images/collections/peplum-mini.png"],
-    "category": "Cocktail",
-    "silhouette": "Peplum Shift",
-    "neckline": "Scoop",
-    "fabric": "Textured Brocade",
-    "color": "Silver Lilac",
-    "sizes": ["US 0", "US 2", "US 4", "US 6"],
-    "description": "A modern peplum mini in a stunning metallic floral brocade.",
-    "details": ["Structural peplum", "Metallic finish", "Jeweled buttons"],
-    "designerNotes": "Perfect for a high-fashion rehearsal dinner.",
-    "careInstructions": "Dry Clean Only",
+    "image": "/images/collections/velvet-midnight.png",
+    "gallery": ["/images/collections/velvet-midnight.png"],
+    "category": "Evening Wear",
+    "silhouette": "Wrap Gown",
+    "neckline": "V-Neck",
+    "fabric": "Silk Velvet",
+    "color": "Midnight Blue",
+    "sizes": ["US 4", "US 6", "US 8", "US 10"],
+    "description": "A luxurious silk velvet wrap gown designed for high-profile winter evening events.",
+    "details": ["Silk velvet construction", "Hand-stitched borders", "Concealed pockets"],
+    "designerNotes": "The weight of the velvet provides a majestic drape.",
+    "careInstructions": "Specialist Velvet Clean Only",
     "availability": "Limited Stock",
     "featured": false
+  },
+  
+
+  {
+    "id": 14,
+    "sku": "ERT-ORC-010",
+    "name": "Orchid Lace Mermaid",
+    "price": 285000,
+    "collection": "Eternal Romance",
+    "image": "/images/collections/orchid-lace.jpg",
+    "gallery": ["/images/collections/orchid-lace.jpg"],
+    "category": "Mermaid",
+    "silhouette": "Mermaid / Trumpet",
+    "neckline": "Halter Neck",
+    "fabric": "Guipure Lace",
+    "color": "Antique Ivory",
+    "sizes": ["US 2", "US 4", "US 6", "US 8", "US 10"],
+    "description": "Exquisite Guipure lace sculpted into a dramatic mermaid silhouette.",
+    "details": ["Full Guipure lace", "Illusion back", "Power mesh lining"],
+    "designerNotes": "Sculpting the body like a work of art.",
+    "careInstructions": "Dry Clean Only",
+    "availability": "Made-to-order",
+    "featured": true
   },
   {
     "id": 15,

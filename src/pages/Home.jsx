@@ -30,20 +30,20 @@ const Home = () => {
         {/* Background Image Container */}
         <div className="absolute inset-0">
           <img 
-            src="/images/hero-bg.png" // Replace with your high-res hero image
+            src="/images/hero-bg.png" 
             alt="Hero Background" 
             className="w-full h-full object-cover scale-105 animate-slow-zoom" 
           />
-          {/* Sophisticated Overlay: Radial gradient makes the center slightly clearer than the edges */}
           <div className="absolute inset-0 bg-black/30 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl">
+        <div className="relative z-10 text-center px-6 max-w-5xl"> {/* Slightly increased max-w for better balance */}
           <span className="text-[11px] md:text-[12px] uppercase tracking-[0.8em] text-white font-bold mb-8 block drop-shadow-sm">
             The 2025 Atelier
           </span>
           
-          <h1 className="text-6xl md:text-9xl font-serif text-white mb-10 leading-[1.1] tracking-tight drop-shadow-md">
+          {/* Updated text size classes below */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-10 leading-[1.1] tracking-tight drop-shadow-md">
             Petals & Promise
           </h1>
           
