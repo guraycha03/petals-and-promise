@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
       address: "",
       city: "",
       postalCode: "",
-      memberSince: "December 2024"
+      memberSince: "December 2025"
     };
   });
 
