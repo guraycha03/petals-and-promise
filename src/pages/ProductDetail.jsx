@@ -142,11 +142,22 @@ const ProductDetail = () => {
             <button 
               onClick={handleAddToBag}
               className={`w-full flex items-center justify-center gap-3 py-5 tracking-[0.2em] uppercase text-[11px] font-bold transition-all duration-500 ${
-                isAdded ? 'bg-green-800 text-white' : 'bg-brand-sage-dark text-white hover:bg-black'
+                isAdded 
+                  ? 'bg-[#4a4e40] text-white' 
+                  : 'bg-brand-sage-dark text-white hover:bg-brand-primary hover:text-brand-sage-dark'
               }`}
             >
-              {isAdded ? <><Check size={16} /> Added to Bag</> : <><ShoppingBag size={16} /> Add to Bag</>}
+              {isAdded ? (
+                <>
+                  <Check size={16} /> Added to Bag
+                </>
+              ) : (
+                <>
+                  <ShoppingBag size={16} /> Add to Bag
+                </>
+              )}
             </button>
+
             <button className="w-full py-5 border border-brand-sage-dark/20 text-[11px] tracking-[0.2em] uppercase hover:bg-brand-cream transition-colors text-brand-sage-dark font-medium">
               Inquire About Customization
             </button>
