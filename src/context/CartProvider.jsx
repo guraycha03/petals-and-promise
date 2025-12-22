@@ -39,9 +39,16 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  // Inside your CartProvider component:
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('petals-cart-v1');
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToBag, removeFromCart, updateQuantity }}>
+    <CartContext.Provider value={{ cart, addToBag, removeFromCart, updateQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );
+  
 };

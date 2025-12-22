@@ -180,7 +180,7 @@ export const PRODUCTS = [
     "image": "/images/collections/serene-square-neck-midi.png",
     "gallery": [
       "/images/collections/serene-square-neck-midi.png",
-      "/images/collections/serene-square-neck-midi-detail.png"
+      "/images/collections/serene-square-neck-midi.png"
     ],
     "category": "Classic",
     "silhouette": "Minimalist Sheath / Midi",
