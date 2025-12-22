@@ -38,33 +38,58 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- CAROUSEL SECTION --- */}
-      {/* --- CAROUSEL SECTION --- */}
-<div className="py-20 md:py-32 bg-slate-50"> {/* Light greyish bg to let beige cards pop */}
-  <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-    <div>
-      <h2 className="text-3xl md:text-4xl font-serif text-brand-sage-dark tracking-wide">
-        Featured Pieces
-      </h2>
-      <p className="text-[10px] uppercase tracking-[0.3em] text-brand-primary font-bold mt-3">
-        Curated for the Bloom Collection
-      </p>
-    </div>
-    <Link to="/collections" className="text-[10px] uppercase tracking-[0.2em] text-brand-sage-dark border-b border-brand-sage-dark pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
-      Shop All
-    </Link>
-  </div>
-
-  <div className="overflow-hidden" ref={emblaRef}>
-    <div className="flex gap-2 md:gap-10 px-6 md:px-12">
-      {PRODUCTS.map((item) => (
-        <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
-          <ProductCard product={item} />
+      {/* --- CATEGORY GRID --- */}
+      <div className="py-20 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { name: 'The Minimalist', image: '/images/collections/lumière-shimmer-mini-dress.png', link: '/collections?cat=Sheath' },
+            { name: 'The Romantic', image: '/images/collections/petal-gown.png', link: '/collections?cat=A-Line' },
+            { name: 'The Grand Entrance', image: '/images/collections/cathedral-gown.png', link: '/collections?cat=Ballgown' },
+          ].map((cat) => (
+            <Link key={cat.name} to={cat.link} className="group relative h-[500px] overflow-hidden rounded-2xl bg-brand-cream">
+              <img 
+                src={cat.image} 
+                alt={cat.name} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
+              <div className="absolute bottom-10 left-0 right-0 text-center">
+                <h3 className="text-white font-serif text-2xl tracking-wide mb-2">{cat.name}</h3>
+                <span className="text-[10px] text-white/80 uppercase tracking-[0.3em] border-b border-white/40 pb-1 group-hover:border-white transition-all">
+                  Discover
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-</div>
+      </div>
+
+      {/* --- CAROUSEL SECTION --- */}
+      <div className="py-20 md:py-32 bg-slate-50"> {/* Light greyish bg to let beige cards pop */}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-serif text-brand-sage-dark tracking-wide">
+              Featured Pieces
+            </h2>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-brand-primary font-bold mt-3">
+              Curated for the Bloom Collection
+            </p>
+          </div>
+          <Link to="/collections" className="text-[10px] uppercase tracking-[0.2em] text-brand-sage-dark border-b border-brand-sage-dark pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
+            Shop All
+          </Link>
+        </div>
+
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-2 md:gap-10 px-6 md:px-12">
+            {PRODUCTS.map((item) => (
+              <div key={item.id} className="flex-[0_0_46%] md:flex-[0_0_25%] min-w-0">
+                <ProductCard product={item} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* --- BRAND PHILOSOPHY --- */}
       <div className="py-24 bg-brand-blush/5 border-t border-brand-sage-light/20">
@@ -77,6 +102,52 @@ const Home = () => {
           </p>
         </div>
       </div>
+
+
+      {/* --- THE CRAFT --- */}
+      <div className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
+          <div className="relative">
+            <div className="aspect-[4/5] bg-brand-cream rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/collections/sheer-blouse.png" 
+                alt="Detailing" 
+                className="w-full h-full object-cover mix-blend-multiply" 
+              />
+            </div>
+            {/* Decorative floating card */}
+            <div className="absolute -bottom-10 -right-10 bg-brand-sage-dark text-white p-8 rounded-2xl hidden md:block max-w-[240px]">
+              <p className="font-serif text-xl mb-2">120+ Hours</p>
+              <p className="text-[9px] uppercase tracking-widest text-white/60 leading-relaxed">
+                The average time spent hand-beading a single Petals & Promise bodice.
+              </p>
+            </div>
+          </div>
+          
+          <div className="space-y-8">
+            <span className="text-[10px] uppercase tracking-[0.4em] text-brand-primary font-bold">The Process</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-brand-sage-dark leading-tight">
+              A symphony of <br/>silk and stone.
+            </h2>
+            <div className="space-y-6 text-brand-sage-dark/70 text-sm leading-loose max-w-md">
+              <p>
+                From the initial charcoal sketch to the final fitting, our atelier operates on the principles of 
+                French haute couture. Every seam is finished by hand, and every fabric is ethically sourced 
+                from heritage mills in Italy and France.
+              </p>
+              <ul className="space-y-4 pt-4">
+                {['Ethically Sourced Silks', 'Hand-stitched Embellishments', 'Tailored to your Silhouette'].map((item) => (
+                  <li key={item} className="flex items-center gap-4 text-[11px] uppercase tracking-widest font-bold">
+                    <span className="w-1.5 h-1.5 bg-brand-primary rounded-full" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   );
 };
