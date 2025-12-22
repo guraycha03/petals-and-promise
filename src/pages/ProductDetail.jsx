@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { PRODUCTS } from '../data/products';
-import { ChevronLeft, ShoppingBag, Check, Plus, Minus, Ruler, AlertCircle } from 'lucide-react'; // Added AlertCircle
+import { ChevronLeft, ShoppingBag, Check, Plus, Minus, Ruler, AlertCircle } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
+import ProductCard from '../components/ProductCard';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { addToBag } = useCart();
+  
+  // States
   const [isAdded, setIsAdded] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const [activeImage, setActiveImage] = useState(0);
   const [openSection, setOpenSection] = useState('details');
-  
-  // New State for Inline Error
   const [showSizeError, setShowSizeError] = useState(false);
 
+  // Find current product
   const product = PRODUCTS.find(p => p.id === parseInt(id));
   const allImages = [product?.image, ...(product?.gallery || [])];
+
+  // Scroll to top whenever the product ID changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setActiveImage(0);
+    setSelectedSize('');
+  }, [id]);
+
+  // Generate Randomized Recommendations (excluding current product)
+  const recommendedProducts = useMemo(() => {
+    return [...PRODUCTS]
+      .filter(p => p.id !== parseInt(id))
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  }, [id]);
 
   const formatPHP = (price) => {
     return new Intl.NumberFormat('en-PH', {
@@ -29,13 +47,12 @@ const ProductDetail = () => {
   const handleAddToBag = () => {
     if (!selectedSize) {
       setShowSizeError(true);
-      // Auto-hide error after 3 seconds
       setTimeout(() => setShowSizeError(false), 3000);
       return;
     }
     
     setShowSizeError(false);
-    addToBag(product);
+    addToBag({ ...product, selectedSize });
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
@@ -44,172 +61,198 @@ const ProductDetail = () => {
     setOpenSection(openSection === section ? null : section);
   };
 
-  if (!product) return <div className="pt-40 text-center font-serif">Piece Not Found</div>;
+  if (!product) return <div className="pt-40 text-center font-serif text-brand-sage-dark">Piece Not Found</div>;
 
   return (
-    <div className="pt-32 md:pt-40 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
-      
-      {/* Navigation */}
-      <div className="mb-8 md:mb-12">
-        <Link to="/collections" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-brand-sage-dark group">
-          <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Collections
-        </Link>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-12 xl:gap-24 items-start justify-center">
+    <div className="pt-32 md:pt-40 pb-24">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
         
-        {/* LEFT: Image Gallery */}
-        <div className="w-full lg:w-1/2 space-y-6 lg:sticky lg:top-32">
-          <div className="bg-brand-cream overflow-hidden rounded-sm flex items-start justify-center max-h-[70vh] md:max-h-[85vh]">
-            <img 
-              src={allImages[activeImage]} 
-              alt={product.name} 
-              className="w-full h-auto max-h-full object-contain transition-all duration-700" 
-            />
-          </div>
-          
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
-            {allImages.map((img, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-2">
-                <button 
-                  onClick={() => setActiveImage(idx)}
-                  className={`flex-shrink-0 w-20 h-24 transition-all duration-300 overflow-hidden rounded-sm
-                    ${activeImage === idx 
-                      ? 'opacity-100 scale-[1.02]' 
-                      : 'opacity-30 hover:opacity-60'
-                    }`}
-                >
-                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
-                </button>
-                <div className={`h-1 w-8 transition-all duration-500 rounded-full ${activeImage === idx ? 'bg-[#889C62] opacity-100' : 'bg-transparent opacity-0'}`} />
-              </div>
-            ))}
-          </div>
+        {/* --- NAVIGATION --- */}
+        <div className="mb-8 md:mb-12">
+          <Link to="/collections" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-brand-sage-dark group">
+            <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            Back to Collections
+          </Link>
         </div>
 
-        {/* RIGHT: Product Info */}
-        <div className="w-full lg:w-1/2 flex flex-col">
-          <div className="mb-8">
-            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-brand-primary font-bold block mb-4">
-              {product.collection} / SKU: {product.sku}
-            </span>
-            <h1 className="font-serif text-3xl md:text-4xl xl:text-5xl text-brand-sage-dark mb-4 leading-tight">
-              {product.name}
-            </h1>
-            <p className="text-xl font-serif text-brand-sage-dark italic">{formatPHP(product.price)}</p>
-          </div>
-
-          {/* Size Selection */}
-          <div className="mb-10">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-[10px] uppercase tracking-widest font-bold">Select Size</span>
-              <button className="text-[10px] uppercase tracking-widest flex items-center gap-1 text-brand-sage-dark/60 hover:text-brand-primary transition-colors">
-                <Ruler size={12} /> Size Guide
-              </button>
+        {/* --- PRODUCT MAIN SECTION --- */}
+        <div className="flex flex-col lg:flex-row gap-12 xl:gap-24 items-start justify-center mb-32">
+          
+          {/* LEFT: Image Gallery */}
+          <div className="w-full lg:w-1/2 space-y-6 lg:sticky lg:top-32">
+            <div className="bg-brand-cream overflow-hidden rounded-sm flex items-start justify-center max-h-[70vh] md:max-h-[85vh]">
+              <img 
+                src={allImages[activeImage]} 
+                alt={product.name} 
+                className="w-full h-auto max-h-full object-contain transition-all duration-700" 
+              />
             </div>
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {product.sizes.map(size => (
-                <button
-                  key={size}
-                  onClick={() => {
-                    setSelectedSize(size);
-                    setShowSizeError(false); // Clear error when size is picked
-                  }}
-                  className={`min-w-[55px] md:min-w-[65px] py-3 px-4 text-[10px] tracking-tighter border transition-all ${
-                    selectedSize === size 
-                    ? 'border-brand-sage-dark bg-brand-sage-dark text-white' 
-                    : 'border-brand-sage-light hover:border-brand-sage-dark'
-                  } ${showSizeError && !selectedSize ? 'border-red-400 bg-red-50' : ''}`}
-                >
-                  {size}
-                </button>
+            
+            <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
+              {allImages.map((img, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-2">
+                  <button 
+                    onClick={() => setActiveImage(idx)}
+                    className={`flex-shrink-0 w-20 h-24 transition-all duration-300 overflow-hidden rounded-sm
+                      ${activeImage === idx 
+                        ? 'opacity-100 scale-[1.02]' 
+                        : 'opacity-30 hover:opacity-60'
+                      }`}
+                  >
+                    <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                  </button>
+                  <div className={`h-1 w-8 transition-all duration-500 rounded-full ${activeImage === idx ? 'bg-[#889C62] opacity-100' : 'bg-transparent opacity-0'}`} />
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="space-y-3 mb-10 relative">
-            
-            {/* IN-APP NOTICE (Inline Error) */}
-            <div className={`transition-all duration-300 overflow-hidden ${showSizeError ? 'max-h-12 opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
-              <div className="flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-sm border border-red-100">
-                <AlertCircle size={14} />
-                <span className="text-[10px] uppercase tracking-widest font-bold">Please select a size to continue</span>
+          {/* RIGHT: Product Info */}
+          <div className="w-full lg:w-1/2 flex flex-col">
+            <div className="mb-8">
+              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-brand-primary font-bold block mb-4">
+                {product.collection} / SKU: {product.sku}
+              </span>
+              <h1 className="font-serif text-3xl md:text-4xl xl:text-5xl text-brand-sage-dark mb-4 leading-tight">
+                {product.name}
+              </h1>
+              <p className="text-xl font-serif text-brand-sage-dark italic">{formatPHP(product.price)}</p>
+            </div>
+
+            {/* Size Selection */}
+            <div className="mb-10">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-[10px] uppercase tracking-widest font-bold">Select Size</span>
+                <button className="text-[10px] uppercase tracking-widest flex items-center gap-1 text-brand-sage-dark/60 hover:text-brand-primary transition-colors">
+                  <Ruler size={12} /> Size Guide
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 md:gap-3">
+                {product.sizes.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      setShowSizeError(false);
+                    }}
+                    className={`min-w-[55px] md:min-w-[65px] py-3 px-4 text-[10px] tracking-tighter border transition-all ${
+                      selectedSize === size 
+                      ? 'border-brand-sage-dark bg-brand-sage-dark text-white' 
+                      : 'border-brand-sage-light hover:border-brand-sage-dark'
+                    } ${showSizeError && !selectedSize ? 'border-red-400 bg-red-50' : ''}`}
+                  >
+                    {size}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <button 
-              onClick={handleAddToBag}
-              className={`w-full flex items-center justify-center gap-3 py-5 tracking-[0.2em] uppercase text-[11px] font-bold transition-all duration-500 ${
-                isAdded 
-                  ? 'bg-[#4a4e40] text-white' 
-                  : 'bg-brand-sage-dark text-white hover:bg-brand-primary hover:text-brand-sage-dark'
-              }`}
-            >
-              {isAdded ? (
-                <>
-                  <Check size={16} /> Added to Bag
-                </>
-              ) : (
-                <>
-                  <ShoppingBag size={16} /> Add to Bag
-                </>
-              )}
-            </button>
-
-            <button className="w-full py-5 border border-brand-sage-dark/20 text-[11px] tracking-[0.2em] uppercase hover:bg-brand-cream transition-colors text-brand-sage-dark font-medium">
-              Inquire About Customization
-            </button>
-          </div>
-
-          {/* Accordions */}
-          <div className="border-t border-brand-sage-light/30">
-            <DropdownSection title="Design & Craftsmanship" isOpen={openSection === 'details'} toggle={() => toggleSection('details')}>
-              <p className="mb-4 text-sm leading-relaxed text-brand-sage-dark/80">{product.description}</p>
-              <ul className="space-y-2">
-                {product.details.map((detail, i) => (
-                  <li key={i} className="text-sm flex items-start gap-2 text-brand-sage-dark/80 font-light">
-                    <span className="mt-2 w-1 h-1 bg-brand-primary/60 rounded-full shrink-0" />
-                    {detail}
-                  </li>
-                ))}
-              </ul>
-            </DropdownSection>
-            
-            {/* ... rest of the sections remain same ... */}
-            <DropdownSection title="Specifications" isOpen={openSection === 'specs'} toggle={() => toggleSection('specs')}>
-              <div className="grid grid-cols-2 gap-y-6 text-sm">
-                <div>
-                  <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Silhouette</p>
-                  <p className="text-brand-sage-dark">{product.silhouette}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Fabric</p>
-                  <p className="text-brand-sage-dark">{product.fabric}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Neckline</p>
-                  <p className="text-brand-sage-dark">{product.neckline}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Lead Time</p>
-                  <p className="text-brand-sage-dark">{product.availability}</p>
+            {/* Action Buttons */}
+            <div className="space-y-3 mb-10 relative">
+              <div className={`transition-all duration-300 overflow-hidden ${showSizeError ? 'max-h-12 opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
+                <div className="flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-sm border border-red-100">
+                  <AlertCircle size={14} />
+                  <span className="text-[10px] uppercase tracking-widest font-bold">Please select a size to continue</span>
                 </div>
               </div>
-            </DropdownSection>
 
-            <DropdownSection title="Care & Delivery" isOpen={openSection === 'care'} toggle={() => toggleSection('care')}>
-              <p className="text-sm leading-relaxed text-brand-sage-dark/70 italic mb-4">{product.careInstructions}</p>
-              <p className="text-sm leading-relaxed text-brand-sage-dark/80">{product.designerNotes}</p>
-            </DropdownSection>
+              <button 
+                onClick={handleAddToBag}
+                className={`w-full flex items-center justify-center gap-3 py-5 tracking-[0.2em] uppercase text-[11px] font-bold transition-all duration-500 ${
+                  isAdded 
+                    ? 'bg-[#4a4e40] text-white' 
+                    : 'bg-brand-sage-dark text-white hover:bg-brand-primary hover:text-brand-sage-dark'
+                }`}
+              >
+                {isAdded ? (
+                  <><Check size={16} /> Added to Bag</>
+                ) : (
+                  <><ShoppingBag size={16} /> Add to Bag</>
+                )}
+              </button>
+
+              <button className="w-full py-5 border border-brand-sage-dark/20 text-[11px] tracking-[0.2em] uppercase hover:bg-brand-cream transition-colors text-brand-sage-dark font-medium">
+                Inquire About Customization
+              </button>
+            </div>
+
+            {/* Accordions */}
+            <div className="border-t border-brand-sage-light/30">
+              <DropdownSection title="Design & Craftsmanship" isOpen={openSection === 'details'} toggle={() => toggleSection('details')}>
+                <p className="mb-4 text-sm leading-relaxed text-brand-sage-dark/80">{product.description}</p>
+                <ul className="space-y-2">
+                  {product.details.map((detail, i) => (
+                    <li key={i} className="text-sm flex items-start gap-2 text-brand-sage-dark/80 font-light">
+                      <span className="mt-2 w-1 h-1 bg-brand-primary/60 rounded-full shrink-0" />
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              </DropdownSection>
+              
+              <DropdownSection title="Specifications" isOpen={openSection === 'specs'} toggle={() => toggleSection('specs')}>
+                <div className="grid grid-cols-2 gap-y-6 text-sm">
+                  <div>
+                    <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Silhouette</p>
+                    <p className="text-brand-sage-dark">{product.silhouette}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Fabric</p>
+                    <p className="text-brand-sage-dark">{product.fabric}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Neckline</p>
+                    <p className="text-brand-sage-dark">{product.neckline}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase font-bold tracking-widest text-brand-primary mb-1">Lead Time</p>
+                    <p className="text-brand-sage-dark">{product.availability}</p>
+                  </div>
+                </div>
+              </DropdownSection>
+
+              <DropdownSection title="Care & Delivery" isOpen={openSection === 'care'} toggle={() => toggleSection('care')}>
+                <p className="text-sm leading-relaxed text-brand-sage-dark/70 italic mb-4">{product.careInstructions}</p>
+                <p className="text-sm leading-relaxed text-brand-sage-dark/80">{product.designerNotes}</p>
+              </DropdownSection>
+            </div>
           </div>
         </div>
+
+        {/* --- RECOMMENDATIONS SECTION --- */}
+        <section className="border-t border-brand-sage-light/20 pt-24 mt-24">
+          <div className="text-center mb-16">
+            <span className="text-[10px] uppercase tracking-[0.4em] text-brand-primary font-bold block mb-4">
+              More to Love
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif text-brand-sage-dark tracking-wide">
+              Complete the Look
+            </h2>
+            <div className="w-12 h-[1px] bg-brand-sage-light mx-auto mt-6" />
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12 md:gap-x-8 md:gap-y-16">
+            {recommendedProducts.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+
+          <div className="mt-20 text-center">
+            <Link 
+              to="/collections" 
+              className="inline-block border border-brand-sage-dark/20 px-12 py-4 text-[11px] uppercase tracking-[0.2em] text-brand-sage-dark hover:bg-brand-sage-dark hover:text-white transition-all duration-700"
+            >
+              View Full Collection
+            </Link>
+          </div>
+        </section>
+
       </div>
     </div>
   );
 };
 
+// Sub-component for Accordions
 const DropdownSection = ({ title, children, isOpen, toggle }) => (
   <div className="border-b border-brand-sage-light/30">
     <button 
