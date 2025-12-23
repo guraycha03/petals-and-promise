@@ -1,5 +1,4 @@
-# petals-and-promise
-Petals and Promise is a responsive, luxury-themed e-commerce web application designed for a high-end bridal gown and wedding dress boutique.
+
 # Petals & Promise — Luxury Bridal Boutique
 
 Petals & Promise is a high-end, responsive e-commerce web application meticulously crafted for a luxury bridal atelier. The platform offers a seamless, high-fidelity shopping experience for premium bridal gowns, sustainable silks, and artisanal wedding pieces.
@@ -31,14 +30,3 @@ To resolve **React Fast Refresh** constraints and ensure a clean separation of c
 
 
 
-```text
-src/
-├── components/        # UI Shell (Header, Footer, ScrollToTop)
-├── context/           
-│   ├── CartContext.js # Pure Context object (Data Slot)
-│   └── CartProvider.jsx# State Logic & LocalStorage Sync (Provider)
-├── hooks/             
-│   └── useCart.js     # Unified Custom Hook (The Bridge)
-├── pages/             # View Layers (Home, Collections, ProductDetail, Cart)
-├── data/              # Centralized Product Database
-└── App.jsx            # Application Root & Route Definitions
